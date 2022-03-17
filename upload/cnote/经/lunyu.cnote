@@ -437,13 +437,28 @@
           "name": "AlertComponent",
           "state": {
             "fill": true,
-            "type": "warning"
+            "type": "primary"
           },
           "slots": [
             {
               "schema": [
                 1,
                 3,
+                2
+              ],
+              "content": [
+                "\n"
+              ],
+              "formats": {}
+            }
+          ]
+        },
+        {
+          "name": "ParagraphComponent",
+          "slots": [
+            {
+              "schema": [
+                1,
                 2
               ],
               "content": [
