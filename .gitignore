@@ -3,3 +3,4 @@ node_modules
 .idea/misc.xml
 .idea/modules.xml
 .idea/node-note.iml
+dist
