@@ -11,13 +11,15 @@ const fs = require("fs");
 const path=require("path")
 var mkdirp = require('mkdirp')
 module.exports = function(app) {
-    app.post('/api/u/cnote', function (req, res, next) {
+    app.post('/api/u/note', function (req, res, next) {
         const form=new formidable.IncomingForm();
         form.parse(req, (err, fields, files) => {
             
             let filePath=fields.filePath
             let content=fields.content
-            console.log("/api/u/cnote",filePath)
+            var pretty = require('pretty');
+            content=pretty(content, {ocd: true});
+            console.log("/api/u/note",filePath)
             // 同步读取
             //var data = fs.readFileSync(filePath);
             // 异步读取
@@ -46,8 +48,8 @@ module.exports = function(app) {
             //console.log(fields)
             let filePath=fields.filePath
             filePath=filePath+".html"
-            filePath=filePath.replace("upload/cnote","upload/notehtml")
-            filePath=filePath.replace("upload\\cnote","upload\\notehtml")
+            filePath=filePath.replace("upload/note","upload/notehtml")
+            filePath=filePath.replace("upload\\note","upload\\notehtml")
             
             let content=fields.content
             var pretty = require('pretty');

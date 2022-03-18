@@ -61,7 +61,7 @@ module.exports = function(app) {
         const form=new formidable.IncomingForm();
         form.parse(req, (err, fields, files) => {
             console.log(fields)
-            let filePath=fields.filePath||'upload/json'
+            let filePath=fields.filePath||'upload/note'
             
             let children = fs.readdirSync(filePath);
             
@@ -76,7 +76,7 @@ module.exports = function(app) {
                         value:fPath
                     }
                     let extname=path.extname(fPath)
-                    extname==".cnote"?fileList.push(fileInfo):""
+                    extname==".html"?fileList.push(fileInfo):""
                 }
             });
             console.log('/api/r/files',fileList)
@@ -87,43 +87,42 @@ module.exports = function(app) {
             
         })
     });
-    app.post('/api/r/cnote', function (req, res, next) {
+    app.post('/api/r/note', function (req, res, next) {
         const form=new formidable.IncomingForm();
         form.parse(req, (err, fields, files) => {
             
-            let filePath=fields.filePath||'public/json/article.json'
-            console.log("/api/r/cnote",filePath)
+            let filePath=fields.filePath
+            console.log("/api/r/note",filePath)
             let fileType=path.extname(filePath)
-            if(!(fileType===".cnote")){
+            if(fileType!=".html"){
                 res.json({
                     code:2,
                     msg:'格式不支持',
-                    content:{}
+                    content:""
                 });
-            }
-            // 同步读取
-            //var data = fs.readFileSync(filePath);
-            // 异步读取
-            fs.readFile(filePath, 'utf8',function (err, data) {
-                //console.log(fileType,err,data.toString())
-                if(err) {
-                    console.log("异步读取: " + err);
-                    res.json({
-                        code:1,
-                        msg:'错误信息',
-                        content:{}
-                    });
-                } else {
-                    res.json({
-                        code:0,
-                        type:fileType,
-                        content:data.toString()
-                    });
-                }
-                
-            });
+            }else{
+                // 同步读取
+                //var data = fs.readFileSync(filePath);
+                // 异步读取
+                fs.readFile(filePath, 'utf8',function (err, data) {
+                    //console.log(fileType,err,data.toString())
+                    if(err) {
+                        console.log("异步读取: " + err);
+                        res.json({
+                            code:1,
+                            msg:'错误信息',
+                            content:{}
+                        });
+                    } else {
+                        res.json({
+                            code:0,
+                            type:fileType,
+                            content:data.toString()
+                        });
+                    }
+                    
+                });
+            }                       
         })
-        
-        
     });
 }
